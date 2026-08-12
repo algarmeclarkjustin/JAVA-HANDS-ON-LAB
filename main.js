@@ -25,7 +25,10 @@ function clearEntity() {
 
 function clearItems() {
     numbers = [];
-    document.getElementById('sortOrder').value = '';
+    const sortOrder = document.getElementById('sortOrder');
+    if (sortOrder) {
+        sortOrder.value = '';
+    }
     renderList();
     clearSummary();
 }
@@ -114,5 +117,8 @@ function sortNumbers(order) {
 }
 
 function clearSummary() {
-    document.getElementById('results').innerHTML = '';
+    const results = document.getElementById('results');
+    if (results) {
+        results.innerHTML = '';
+    }
 }
