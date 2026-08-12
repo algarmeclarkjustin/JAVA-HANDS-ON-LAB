@@ -5,14 +5,16 @@ function insertNumbers() {
     const value = input.value.trim();
     const number = Number(value);
 
-    if (value === '' || Number.isNaN(number) || number < 0 || !Number.isInteger(number)) {
+    if (value === '' || Number.isNaN(number) || number <= 0 || !Number.isInteger(number)) {
         alert('Please enter a positive whole number.');
         return;
     }
 
     numbers.push(number);
+
     input.value = '';
     input.focus();
+
     renderList();
     clearSummary();
 }
@@ -25,29 +27,39 @@ function clearEntity() {
 
 function clearItems() {
     numbers = [];
+
     const sortOrder = document.getElementById('sortOrder');
+
     if (sortOrder) {
         sortOrder.value = '';
     }
+
     renderList();
     clearSummary();
 }
 
 function renderList() {
     const table = document.getElementById('numberList');
+
     if (numbers.length === 0) {
         table.innerHTML = '';
         return;
     }
 
     let html = '';
+
     numbers.forEach((num, index) => {
         const type = num % 2 === 0 ? 'Even' : 'Odd';
         const color = num % 2 === 0 ? 'green' : 'blue';
+
         html += `
             <tr>
                 <td style="padding-right: 16px;">${num}</td>
-                <td style="color:${color}; font-weight:bold; padding-right: 16px;">${type}</td>
+
+                <td style="color:${color}; font-weight:bold; padding-right: 16px;">
+                    ${type}
+                </td>
+
                 <td>
                     <button onclick="removeItem(${index})">Remove</button>
                     <button onclick="editItem(${index})">Edit</button>
@@ -61,7 +73,9 @@ function renderList() {
 
 function editItem(index) {
     const current = numbers[index];
+
     const input = prompt('Enter new number:', current);
+
     if (input === null) {
         return;
     }
@@ -69,18 +83,20 @@ function editItem(index) {
     const value = input.trim();
     const number = Number(value);
 
-    if (value === '' || Number.isNaN(number) || number < 0 || !Number.isInteger(number)) {
+    if (value === '' || Number.isNaN(number) || number <= 0 || !Number.isInteger(number)) {
         alert('Please enter a positive whole number.');
         return;
     }
 
     numbers[index] = number;
+
     renderList();
     clearSummary();
 }
 
 function removeItem(index) {
     numbers.splice(index, 1);
+
     renderList();
     clearSummary();
 }
@@ -91,9 +107,16 @@ function getTotal() {
         return;
     }
 
+    // Clear previous result first
+    clearSummary();
+
     const total = numbers.reduce((sum, n) => sum + n, 0);
+
     const results = document.getElementById('results');
-    results.innerHTML = `<p>Total: ${total}</p>`;
+
+    results.innerHTML = `
+        <p>Total: ${total}</p>
+    `;
 }
 
 function showHighLow() {
@@ -102,9 +125,14 @@ function showHighLow() {
         return;
     }
 
+    // Clear previous result first
+    clearSummary();
+
     const highest = Math.max(...numbers);
     const lowest = Math.min(...numbers);
+
     const results = document.getElementById('results');
+
     results.innerHTML = `
         <p>Highest: ${highest}</p>
         <p>Lowest: ${lowest}</p>
@@ -114,9 +142,11 @@ function showHighLow() {
 function sortNumbers(order) {
     if (order === 'ascending') {
         numbers.sort((a, b) => a - b);
-    } else if (order === 'descending') {
+    } 
+    else if (order === 'descending') {
         numbers.sort((a, b) => b - a);
-    } else {
+    } 
+    else {
         return;
     }
 
@@ -126,6 +156,7 @@ function sortNumbers(order) {
 
 function clearSummary() {
     const results = document.getElementById('results');
+
     if (results) {
         results.innerHTML = '';
     }
