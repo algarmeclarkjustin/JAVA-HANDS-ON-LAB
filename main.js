@@ -92,12 +92,20 @@ function getTotal() {
     }
 
     const total = numbers.reduce((sum, n) => sum + n, 0);
+    const results = document.getElementById('results');
+    results.innerHTML = `<p>Total: ${total}</p>`;
+}
+
+function showHighLow() {
+    if (numbers.length === 0) {
+        alert('No numbers to calculate.');
+        return;
+    }
+
     const highest = Math.max(...numbers);
     const lowest = Math.min(...numbers);
-
     const results = document.getElementById('results');
     results.innerHTML = `
-        <p>Total: ${total}</p>
         <p>Highest: ${highest}</p>
         <p>Lowest: ${lowest}</p>
     `;
