@@ -5,7 +5,12 @@ function insertNumbers() {
     const value = input.value.trim();
     const number = Number(value);
 
-    if (value === '' || Number.isNaN(number) || number <= 0 || !Number.isInteger(number)) {
+    if (
+        value === '' ||
+        Number.isNaN(number) ||
+        number <= 0 ||
+        !Number.isInteger(number)
+    ) {
         alert('Please enter a positive whole number.');
         return;
     }
@@ -21,6 +26,7 @@ function insertNumbers() {
 
 function clearEntity() {
     const input = document.getElementById('txtNum');
+
     input.value = '';
     input.focus();
 }
@@ -29,7 +35,6 @@ function clearItems() {
     numbers = [];
 
     const sortOrder = document.getElementById('sortOrder');
-
     if (sortOrder) {
         sortOrder.value = '';
     }
@@ -54,15 +59,23 @@ function renderList() {
 
         html += `
             <tr>
-                <td style="padding-right: 16px;">${num}</td>
-
-                <td style="color:${color}; font-weight:bold; padding-right: 16px;">
+                <td style="padding-right: 16px;">
+                    ${num}
+                </td>
+                <td style="
+                    color:${color};
+                    font-weight:bold;
+                    padding-right:16px;
+                ">
                     ${type}
                 </td>
-
                 <td>
-                    <button onclick="removeItem(${index})">Remove</button>
-                    <button onclick="editItem(${index})">Edit</button>
+                    <button onclick="removeItem(${index})">
+                        Remove
+                    </button>
+                    <button onclick="editItem(${index})">
+                        Edit
+                    </button>
                 </td>
             </tr>
         `;
@@ -74,7 +87,10 @@ function renderList() {
 function editItem(index) {
     const current = numbers[index];
 
-    const input = prompt('Enter new number:', current);
+    const input = prompt(
+        'Enter new number:',
+        current
+    );
 
     if (input === null) {
         return;
@@ -83,20 +99,22 @@ function editItem(index) {
     const value = input.trim();
     const number = Number(value);
 
-    if (value === '' || Number.isNaN(number) || number <= 0 || !Number.isInteger(number)) {
+    if (
+        value === '' ||
+        Number.isNaN(number) ||
+        number <= 0 ||
+        !Number.isInteger(number)
+    ) {
         alert('Please enter a positive whole number.');
         return;
     }
-
     numbers[index] = number;
-
     renderList();
     clearSummary();
 }
 
 function removeItem(index) {
     numbers.splice(index, 1);
-
     renderList();
     clearSummary();
 }
@@ -107,21 +125,23 @@ function getTotal() {
         return;
     }
 
-    const total = numbers.reduce((sum, n) => sum + n, 0);
+    const total = numbers.reduce(
+        (sum, n) => sum + n,
+        0
+    );
+
     const results = document.getElementById('results');
 
-    // Check kung may Total na
-    let totalResult = document.getElementById('totalResult');
+    let totalResult =
+        document.getElementById('totalResult');
 
     if (!totalResult) {
         totalResult = document.createElement('p');
         totalResult.id = 'totalResult';
         results.appendChild(totalResult);
     }
-
     totalResult.innerHTML = `Total: ${total}`;
 }
-
 
 function showHighLow() {
     if (numbers.length === 0) {
@@ -133,12 +153,13 @@ function showHighLow() {
     const lowest = Math.min(...numbers);
     const results = document.getElementById('results');
 
-    // Check kung may Highest/Lowest na
-    let highLowResult = document.getElementById('highLowResult');
+    let highLowResult =
+        document.getElementById('highLowResult');
 
     if (!highLowResult) {
         highLowResult = document.createElement('div');
         highLowResult.id = 'highLowResult';
+
         results.appendChild(highLowResult);
     }
 
@@ -148,28 +169,21 @@ function showHighLow() {
     `;
 }
 
-
 function sortNumbers(order) {
     if (order === 'ascending') {
         numbers.sort((a, b) => a - b);
-    } 
-    else if (order === 'descending') {
+    } else if (order === 'descending') {
         numbers.sort((a, b) => b - a);
-    } 
-    else {
+    } else {
         return;
     }
-
     renderList();
-
-    // Kapag nag-sort, mawawala lahat ng results
     clearSummary();
 }
 
 
 function clearSummary() {
     const results = document.getElementById('results');
-
     if (results) {
         results.innerHTML = '';
     }
