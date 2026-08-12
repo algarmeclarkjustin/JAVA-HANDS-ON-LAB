@@ -107,17 +107,21 @@ function getTotal() {
         return;
     }
 
-    // Clear previous result first
-    clearSummary();
-
     const total = numbers.reduce((sum, n) => sum + n, 0);
-
     const results = document.getElementById('results');
 
-    results.innerHTML = `
-        <p>Total: ${total}</p>
-    `;
+    // Check kung may Total na
+    let totalResult = document.getElementById('totalResult');
+
+    if (!totalResult) {
+        totalResult = document.createElement('p');
+        totalResult.id = 'totalResult';
+        results.appendChild(totalResult);
+    }
+
+    totalResult.innerHTML = `Total: ${total}`;
 }
+
 
 function showHighLow() {
     if (numbers.length === 0) {
@@ -125,19 +129,25 @@ function showHighLow() {
         return;
     }
 
-    // Clear previous result first
-    clearSummary();
-
     const highest = Math.max(...numbers);
     const lowest = Math.min(...numbers);
-
     const results = document.getElementById('results');
 
-    results.innerHTML = `
+    // Check kung may Highest/Lowest na
+    let highLowResult = document.getElementById('highLowResult');
+
+    if (!highLowResult) {
+        highLowResult = document.createElement('div');
+        highLowResult.id = 'highLowResult';
+        results.appendChild(highLowResult);
+    }
+
+    highLowResult.innerHTML = `
         <p>Highest: ${highest}</p>
         <p>Lowest: ${lowest}</p>
     `;
 }
+
 
 function sortNumbers(order) {
     if (order === 'ascending') {
@@ -151,8 +161,11 @@ function sortNumbers(order) {
     }
 
     renderList();
+
+    // Kapag nag-sort, mawawala lahat ng results
     clearSummary();
 }
+
 
 function clearSummary() {
     const results = document.getElementById('results');
