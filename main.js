@@ -105,5 +105,5 @@ function sortNumbers(order) {
 }
 
 function clearSummary() {
-    document.getElementById('results').innerHTML = '';
+    document.getElementById('results').innerHTML = ''
 }
