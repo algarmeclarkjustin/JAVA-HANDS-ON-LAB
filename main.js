@@ -37,24 +37,17 @@ function renderList() {
         return;
     }
 
-    let html = `
-        <tr>
-            <th>Number</th>
-            <th>Type</th>
-            <th>Actions</th>
-        </tr>
-    `;
-
+    let html = '';
     numbers.forEach((num, index) => {
         const type = num % 2 === 0 ? 'Even' : 'Odd';
         const color = num % 2 === 0 ? 'green' : 'blue';
         html += `
             <tr>
-                <td>${num}</td>
-                <td style="color:${color}; font-weight:bold;">${type}</td>
+                <td style="padding-right: 16px;">${num}</td>
+                <td style="color:${color}; font-weight:bold; padding-right: 16px;">${type}</td>
                 <td>
-                    <button onclick="editItem(${index})">Edit</button>
                     <button onclick="removeItem(${index})">Remove</button>
+                    <button onclick="editItem(${index})">Edit</button>
                 </td>
             </tr>
         `;
@@ -64,7 +57,23 @@ function renderList() {
 }
 
 function editItem(index) {
-    alert('Edit number: ' + numbers[index]);
+    const current = numbers[index];
+    const input = prompt('Enter new number:', current);
+    if (input === null) {
+        return;
+    }
+
+    const value = input.trim();
+    const number = Number(value);
+
+    if (value === '' || Number.isNaN(number) || number < 0 || !Number.isInteger(number)) {
+        alert('Please enter a positive whole number.');
+        return;
+    }
+
+    numbers[index] = number;
+    renderList();
+    clearSummary();
 }
 
 function removeItem(index) {
